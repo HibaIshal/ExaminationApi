@@ -19,4 +19,5 @@ app.MapGet("/translate", (string text) =>
     return Results.Ok(new { original = text, translated = svar });
 });
 
+app.MapGet("/", () => "Webbplatsen fungerar!");
 app.Run("http://0.0.0.0:5000");
