@@ -19,7 +19,7 @@ API:t är tillgängligt live på: http://examinationapiv3-env.eba-ijbpybc2.eu-no
 
 * GET /: Enkel kontroll för att se att servern lever.
 
-* POST /translate: Används för att översätta text. Skicka in en sträng så byts 'e', 'o', 'a' och 'l' ut mot siffror My version of Translator.cs is].
+* POST /translate: Används för att översätta text. Skicka in en sträng så byts 'e', 'o', 'a' och 'l' ut mot siffror.
 
 
 🌲 Git Flow
