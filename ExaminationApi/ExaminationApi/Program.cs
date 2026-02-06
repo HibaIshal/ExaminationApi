@@ -8,23 +8,21 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Aktiverar Swagger om appen körs i utvecklingsmiljö
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Aktiverar Swagger för att kunna se API dokumentationen
+app.UseSwagger();
+app.UseSwaggerUI();
 
-// Sida för att kontrolera att webbplatsen är igång
+// En enkel startsida så man ser att servern lever
 app.MapGet("/", () => "Webbplatsen fungerar!");
 
-// Punkt för att ta emot text och skicka tillbaka översättning
+// Här definierar vi en POST endpoint som tar emot text och returnerar den översatta versionen
 app.MapPost("/translate", (string text) =>
 {
+    // Skapar en ny översättare och sparar resultatet
     var translator = new Translator();
     var result = translator.Translate(text);
     return result;
 });
 
-// Startar applikationen
+// Startar igång appen
 app.Run();
