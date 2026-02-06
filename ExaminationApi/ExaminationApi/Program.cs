@@ -2,20 +2,23 @@ using ExaminationApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Lägger till stöd för API dokumentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Aktiverar Swagger om appen körs i utvecklingsmiljö
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Vi behåller denna enkla startsida för att AWS Health Check ska bli grön
+// Sida för att kontrolera att webbplatsen är igång
 app.MapGet("/", () => "Webbplatsen fungerar!");
 
+// Punkt för att ta emot text och skicka tillbaka översättning
 app.MapPost("/translate", (string text) =>
 {
     var translator = new Translator();
@@ -23,5 +26,5 @@ app.MapPost("/translate", (string text) =>
     return result;
 });
 
-// Vi kör appen på alla nätverksgränssnitt på port 8080, vilket är standard för AWS Elastic Beanstalk
-app.Run("http://0.0.0.0:8080");
+// Startar applikationen
+app.Run();
