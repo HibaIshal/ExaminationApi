@@ -2,22 +2,31 @@ using ExaminationApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lägg till tjänster om det behövs (vi har inga komplexa tjänster än)
+// Lägger till tjänster som behövs för API:et
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// En enkel startsida så man vet att API:et lever
-app.MapGet("/", () => "Välkommen till API:et!");
-
-// Skapa en instans av min översättare
-var translator = new Translator();
-
-// Endpoint för att översätta text
-// Exempel: /translate?text=hello
-app.MapGet("/translate", (string text) =>
+// Konfigurerar Swagger så vi kan testa funktionerna
+if (app.Environment.IsDevelopment())
 {
-    var svar = translator.Translate(text);
-    return Results.Ok(new { original = text, translated = svar });
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+// En enkel GET endpoint för att testa att webbplatsen fungerar
+app.MapGet("/", () => "Webbplatsen fungerar!");
+
+// Här ligger logiken för översättnigen som anropas via API
+app.MapPost("/translate", (string text) =>
+{
+    var translator = new Translator();
+    var result = translator.Translate(text);
+    return result;
 });
 
-app.MapGet("/", () => "Webbplatsen fungerar!");
+// Startar applikationen och lyssnar på port 5000
 app.Run("http://0.0.0.0:5000");
