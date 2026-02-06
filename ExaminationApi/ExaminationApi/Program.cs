@@ -13,8 +13,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Tog bort app.UseHttpsRedirection() här för att AWS Health Check ska fungera.
-
+// Vi behåller denna enkla startsida för att AWS Health Check ska bli grön
 app.MapGet("/", () => "Webbplatsen fungerar!");
 
 app.MapPost("/translate", (string text) =>
@@ -24,4 +23,5 @@ app.MapPost("/translate", (string text) =>
     return result;
 });
 
-app.Run("http://0.0.0.0:5000");
+// Vi kör appen på alla nätverksgränssnitt på port 8080, vilket är standard för AWS Elastic Beanstalk
+app.Run("http://0.0.0.0:8080");
