@@ -2,7 +2,7 @@
 {
     public class Translator
     {
-        // Metod för att översätta texten
+        // Metod för att översätta
         public string Translate(string text)
         {
             // En säkerhetskoll: Om texte är tom, skicka tillbaka tomt
@@ -11,13 +11,23 @@
                 return "";
             }
 
-            // Här byter vi ut vissa bokstäver mot siffror för att göra texten svårare att läsa
-            string result = text.Replace("e", "3")
-                                .Replace("o", "0")
-                                .Replace("a", "4")
-                                .Replace("l", "1");
+            // Byter ut bokstäver mot siffror
+            return text.Replace("e", "3")
+                       .Replace("o", "0")
+                       .Replace("a", "4")
+                       .Replace("l", "1");
+        }
 
-            return result;
+        // För att avkryptera 
+        public string Decrypt(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return "";
+
+            // Byter tillbaka siffror till bokstäver
+            return text.Replace("3", "e")
+                       .Replace("0", "o")
+                       .Replace("4", "a")
+                       .Replace("1", "l");
         }
     }
 }
