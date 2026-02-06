@@ -9,26 +9,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Hämtar koden från mitt repo
+    # Hämtar koden från repot
     - uses: actions/checkout@v4
 
-    # Här ställer jag in så att vi använder .NET 8
+    # Ställer in .NET version 8
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    # Här bygges projektet. Viktigt: 
+    # Bygger projektet och sparar filerna i mappen publish.
+    # Pekar på csproj filen för att undvika fel med solution filen.
     - name: Publish application
-      run: dotnet publish ExaminationApi -c Release -o ./publish
+      run: dotnet publish ExaminationApi/ExaminationApi/ExaminationApi.csproj -c Release -o ./publish
 
-    # Packar ihop filerna till en zip.
+    # Zippar ihop filerna inför uppladdning
     - name: Create Zip file
       run: |
         cd publish
         zip -r ../deploy.zip .
 
-    # Här skickas upp zip filen till min miljö i AWS
+    # Skickar upp zip filen till AWS miljön
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21
       with:
