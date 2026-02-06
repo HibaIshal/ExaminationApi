@@ -1,38 +1,41 @@
 name: Deploy to AWS
+
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-    # Hämtar koden från GitHub så att den kan byggas
-    - uses: actions/checkout@v3
 
-    # Installerar .NET verktygen som behövs
+    steps:
+    # Hämtar koden från mitt repo
+    - uses: actions/checkout@v4
+
+    # Här ställer jag in så att vi använder .NET 8
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    # Bygger projektet och skapar filerna för publicering
-    - name: Build and Publish
+    # Här bygges projektet. Viktigt: 
+    - name: Publish application
+      run: dotnet publish ExaminationApi -c Release -o ./publish
+
+    # Packar ihop filerna till en zip.
+    - name: Create Zip file
       run: |
-        dotnet restore
-        dotnet publish -c Release -o ./publish
         cd publish
         zip -r ../deploy.zip .
-        cd ..
 
-    # Skickar den zippade filen till AWS Elastic Beanstalk
+    # Här skickas upp zip filen till min miljö i AWS
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v21
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: 'ExaminationApiV3'
-        environment_name: 'ExaminationApiV3-env'
-        region: 'eu-north-1'
-        version_label: ${{ github.sha }}
+        application_name: ExaminationApiV3
+        environment_name: ExaminationApiV3-env
+        version_label: "ver-${{ github.sha }}"
+        region: eu-north-1
         deployment_package: deploy.zip
