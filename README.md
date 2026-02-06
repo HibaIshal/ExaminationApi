@@ -12,8 +12,13 @@ Det finns ingen frontend i projektet utan interaktionen sker via API endpoints e
 
 3. Kör API lokalt: dotnet run
 
-API:t är tillgängligt live på: http://examinationapiv3-env.eba-ijbpybc2.eu-north-1.elasticbeanstalk.com/.
+🌐 Live miljö 
+Appen är publicerad på AWS.
 
+* API Länk: http://examinationapiv3-env.eba-ijbpybc2.eu-north-1.elasticbeanstalk.com/
+  
+* SWAGGER UI:http://examinationapiv3-env.eba-ijbpybc2.eu-north-1.elasticbeanstalk.com/swagger
+  
 
 ⚙️ Endpoints
 
@@ -21,6 +26,7 @@ API:t är tillgängligt live på: http://examinationapiv3-env.eba-ijbpybc2.eu-no
 
 * POST /translate: Används för att översätta text. Skicka in en sträng så byts 'e', 'o', 'a' och 'l' ut mot siffror automatiskt.
 
+* POST /decrypt: Används för att avkryptera texten. Skicka in den krypterade texten så byts siffrorna tillbaka till bokstäver.
 
 🌲 Git Flow
 Projektet följer en enkel version av Git Flow strategin:
